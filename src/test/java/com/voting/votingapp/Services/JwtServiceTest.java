@@ -19,7 +19,7 @@ class JwtServiceTest {
 
     @InjectMocks
     private JwtService jwtService;
-
+    
     private User testUser;
 
     @BeforeEach
