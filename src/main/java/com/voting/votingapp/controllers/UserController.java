@@ -26,9 +26,8 @@ public class UserController {
         try {
             AuthentificationResponse authentificationResponse = userService.login(user);
             return ResponseEntity.ok(authentificationResponse);
-        }
-        catch (BadCredentialsException e) {
-            return new ResponseEntity(e.getMessage(),HttpStatus.UNAUTHORIZED);
+        } catch (BadCredentialsException e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -40,9 +39,19 @@ public class UserController {
         catch (Exception e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
+
     }
-//    @PostMapping("/seed")
-//    public void multiple(@RequestBody List<CreateUserDTO> users) {
-//        users.forEach(userService::registerUser);
-//    }
+     @GetMapping("/test")
+    public ResponseEntity test() {
+        try {
+            return (ResponseEntity) ResponseEntity.ok();
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+    }
+    // @PostMapping("/seed")
+    // public void multiple(@RequestBody List<CreateUserDTO> users) {
+    // users.forEach(userService::registerUser);
+    // }
 }
