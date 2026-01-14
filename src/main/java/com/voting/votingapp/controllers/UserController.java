@@ -44,7 +44,7 @@ public class UserController {
      @GetMapping("/test")
     public ResponseEntity test() {
         try {
-            //test 7
+            //test 8
             return (ResponseEntity) ResponseEntity.ok();
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
