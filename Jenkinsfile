@@ -46,20 +46,18 @@ pipeline {
         
         stage('Build Image') {
             steps {
-                script {
-                    customImage = docker.build("${DOCKER_HUB_REPO}:${env.BUILD_ID}")
-                }
+                sh "podman build -t ${DOCKER_HUB_REPO}:${env.BUILD_ID} ."
+                sh "podman tag ${DOCKER_HUB_REPO}:${env.BUILD_ID} ${DOCKER_HUB_REPO}:latest"
                 echo 'Docker image built successfully.'
             }
         }
         
         stage('push Image') {
             steps {
-                script {
-                    docker.withRegistry('', CREDENTIALS_ID) {
-                        customImage.push()
-                        customImage.push('latest')
-                    }
+                withCredentials([usernamePassword(credentialsId: CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh 'echo $DOCKER_PASS | podman login docker.io -u $DOCKER_USER --password-stdin'
+                    sh "podman push ${DOCKER_HUB_REPO}:${env.BUILD_ID}"
+                    sh "podman push ${DOCKER_HUB_REPO}:latest"
                 }
                 echo 'Image pushed to Docker Hub successfully.'
             }
